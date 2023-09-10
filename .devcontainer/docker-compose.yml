@@ -9,31 +9,40 @@ services:
     restart: unless-stopped
     volumes:
       - ../..:/workspaces:cached
+    networks:
+      - westie-dev
     command: sleep infinity
-    container_name: devcontainer-wp
-    hostname: devcontainer-wp
+    container_name: devcontainer-wp-1
+    hostname: devcontainer-wp-1
 
+# https://hub.docker.com/_/mariadb
   db:
-    # https://hub.docker.com/_/mariadb
     image: mariadb:11.1
     restart: unless-stopped
     volumes:
       - mariadb-data:/var/lib/mysql
+    networks:
+       - westie-dev
     environment:
       MYSQL_ROOT_PASSWORD: wordpress
       MYSQL_DATABASE: wordpress
       MYSQL_USER: wordpress
       MYSQL_PASSWORD: wordpress
-      
+
+# https://hub.docker.com/_/phpmyadmin
   phpmyadmin:
-    # https://hub.docker.com/_/phpmyadmin
     image: phpmyadmin:5.2
     depends_on:
       - db
     ports:
       - 81:80
+    networks:
+      - westie-dev
     environment:
       PMA_HOST: db
 
 volumes:
   mariadb-data:
+
+networks:
+  westie-dev:
