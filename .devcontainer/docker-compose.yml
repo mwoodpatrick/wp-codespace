@@ -10,9 +10,12 @@ services:
     volumes:
       - ../..:/workspaces:cached
     command: sleep infinity
+    container_name: devcontainer-wp
+    hostname: devcontainer-wp
 
   db:
-    image: mariadb:10.4
+    # https://hub.docker.com/_/mariadb
+    image: mariadb:11.1
     restart: unless-stopped
     volumes:
       - mariadb-data:/var/lib/mysql
@@ -23,7 +26,8 @@ services:
       MYSQL_PASSWORD: wordpress
       
   phpmyadmin:
-    image: phpmyadmin
+    # https://hub.docker.com/_/phpmyadmin
+    image: phpmyadmin:5.2
     depends_on:
       - db
     ports:
