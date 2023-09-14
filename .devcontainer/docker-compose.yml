@@ -46,3 +46,6 @@ volumes:
 
 networks:
   westie-dev:
+    name: k3d-westie-dev
+    driver: bridge
+    external: true
